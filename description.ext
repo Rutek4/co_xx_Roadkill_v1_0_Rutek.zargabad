@@ -1,0 +1,156 @@
+#include "scripts\endscreen\definitions\rscdefinitions.hpp"
+#include "scripts\endscreen\definitions\endScreenDef.hpp"
+
+// briefingName ="co xx Opportunity Knocks";
+overviewText = "2nd Platoon podczas przemieszczania się w kierunku OBJ Pistol wpada w zasadzkę przeciwnika.";
+onLoadIntroTime = false;
+onLoadMissionTime = false;
+author = "Rutek 02.2021 v0.1";
+OnLoadName = "Roadkill";
+onLoadMission = "The strength of the pack is the wolf, the strength of the wolf is the pack.";
+LoadScreen = "images\overview.jpg";
+overviewPicture = "images\overview.jpg";
+disableChannels[] = {2,5,6};
+forceRotorLibSimulation = 0;
+respawnButton = 0;
+respawn = "BIRD";
+respawnTemplates[] = { "ace_spectator" };
+joinUnassigned = 1;
+disabledAI = 0;
+enableDebugConsole = 1;
+
+class Header
+{
+     gameType=COOP;
+     minPlayers=1;
+     maxPlayers=21;
+};
+
+class CfgFunctions
+{
+	class RTK
+	{
+		class Utilities
+        {
+         	file = "scripts\functions";
+         	class UnitSurrender {};
+			class CivFlee {};
+			class CivTraffic {};
+			class Flare {};
+			class GroupCache {};
+			class GroupFeatures {};
+			class GroupUnCache {};
+			class HideTerrainObjects {};
+			class RadioSound {};
+			class RestartEquipment {};
+			class SetMarkersAlpha {};
+			class SetWreck {};
+			class SpawnDog {};
+			class Suppress {};
+			class SuppressVehicle {};
+			class Unitgear {};
+        };
+
+		class EndScreen
+		{
+			file = "scripts\endscreen\functions";
+			class AddTeam {};
+			class CountUnits {};
+			class StackNames {};
+			class EndMissionEvent {};
+			class GetDamagedAssets {};
+			class UpdateRating {};
+			class GetAverageRating {};
+		};
+	};
+};
+
+class CfgDebriefing
+{  
+	class Ending
+	{
+		title = "Koniec, czas na debrief!";
+		subtitle = "Dzięki za wspólną grę!";
+		pictureBackground = "pictures\overview.jpg";
+		picture = "pictures\outro.paa";
+		pictureColor[] = {1.0,1.0,1.0,1};
+	};
+};
+
+class CfgSFX
+{
+	class FireSoundSFX
+	{
+		name = "flames";
+		sounds[] = {sound0};
+		sound0[] = {"\@ca\Sounds\sfx\fire.wss", 1.0, 1.0, 200, 1, 1, 1, 0};
+		empty[] = {"", 0, 0, 0, 0, 0, 0, 0};
+	};
+
+	class BarkingSoundSFX
+	{
+		name = "barking";
+		sounds[] = {sound0};
+		sound0[] = {"sounds\barking.ogg", 2.0, 1.0, 200, 1, 1, 1, 5};
+		empty[] = {"", 0, 0, 0, 0, 0, 0, 0};
+	};
+};
+
+class CfgVehicles
+{
+	class FireSound
+	{
+		sound = "fireSoundSFX";
+	};
+
+	class BarkingSound
+	{
+		sound = "barkingSoundSFX";
+	};
+};
+
+class CfgSounds
+{
+	class RadioTest
+	{
+		name = "radioTest";
+		sound[] = {"\@ca\Sounds\sfx\fire.wss", 0.5, 1.0};
+		titles[] = {0, ""};	
+	};		
+
+	class Firefight
+	{
+		name = "firefight";
+		sound[] = {"sounds\firefight.ogg", 2, 1.0};
+		titles[] = {0, ""};	
+	};		
+
+	class Mortar1
+	{
+		name = "mortar1";
+		sound[] = {"sounds\mortar1.ogg", 30.0, 1};
+		titles[] = {1, ""};
+	};
+
+	class Mortar2
+	{
+		name = "mortar2";
+		sound[] = {"sounds\mortar2.ogg", 30.0, 1};
+		titles[] = {1, ""};
+	};
+
+	class Mortar3
+	{
+		name = "mortar3";
+		sound[] = {"sounds\mortar3.ogg", 30.0, 1};
+		titles[] = {1, ""};
+	};
+
+	class Mortar4
+	{
+		name = "mortar4";
+		sound[] = {"sounds\mortar4.ogg", 30.0, 1};
+		titles[] = {1, ""};
+	};
+	
+};
