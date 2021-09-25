@@ -20,7 +20,6 @@
 */
 
 params ['_civ', '_veh', '_end'];
-private ['_loc', '_group'];
 
 _civ enableAI 'PATH';
 _civ enableAI 'MOVE';
@@ -30,44 +29,10 @@ _civ disableAi 'AUTOCOMBAT';
 _civ disableAi 'COVER';
 _civ setSpeedMode 'FULL';
 
-// Find the closest position of named city or a village to the AI
-_loc = locationPosition (nearestLocations [getPos _civ, ['NameVillage', 'NameCity', 'NameCityCapital'], worldSize, _civ] # 0);
-
 if (isNil {_veh}) then {
-
-	[_civ, _loc] spawn {
-	    params ['_civ', '_loc'];
-	    private ['_houses', '_radius', '_i', '_pos', '_house', '_allBuildings'];
-
-	    _allBuildings = [];
-		_houses = [];
-		_radius = 150;
-		_i = 0;
-		while {(count _houses) < 5 && _i <= 20} do {
-
-			if (_i <= 10) then {
-				// Search for closest surrounding buildings for the first 10 iterations
-				_allBuildings = (getPos _civ) nearObjects ['House', _radius * _i];
-			} else {
-				// Search for buildings in closest city or a village for the rest 10 iterations
-				_allBuildings = _loc nearObjects ['House', _radius * (_i - 10)];
-			};
-			// Check if any found building is enterable and then add it to the array
-			for '_k' from 0 to (count _allBuildings) do {
-				if ([_allBuildings # _k] call BIS_fnc_isBuildingEnterable) then {
-					_houses pushBack (_allBuildings # _k);
-				};
-			};
-
-			_i = _i + 1;
-			sleep 0.1;
-		};
-		// Select random building position index if any enterable building has been found
-		_pos = _loc;
-		if ((count _houses) > 1) then {
-			_house = selectRandom _houses;
-			_pos = selectRandom (_house buildingPos -1);
-		};
+	[_civ] spawn {
+		params ['_civ'];
+	    private _pos = [_civ] call rtk_fnc_findNearestHouse;
 
 		while {alive _civ} do {
 			// Delete AI if it's in the destination position and no player found within 300m range from the AI
@@ -89,29 +54,35 @@ if (isNil {_veh}) then {
 			sleep 5;
 		};
 	};
-
 } else {
-	if (!alive _veh || locked _veh == 2) then {
-		// Run the function recursively if vehicle is not alive or it's locked
-		_civ call rtk_fnc_civFlee; 
-	} else {
-		// Order AI and his fellow group members to enter the vehicle
-		_group = group _civ;
-		_group addVehicle _veh;
-		(units _group) orderGetIn true;
-		_veh setVariable ["civFlee_end", _end]; 
-		// Event Handler runs the traffic function once every alive group member is in the vehicle
-		_veh addEventHandler ["GetIn", {
-			params ["_vehicle", "_role", "_unit", "_turret"];
-			private ['_end'];
+	private _group = group _civ;
 
-			_crew = units (group _unit);
-			if ({_x in _vehicle} count _crew == {alive _x} count _crew) then {
-				_end = _vehicle getVariable "civFlee_end";
-				[_vehicle, nil, nil, _end] call rtk_fnc_civTraffic;
-				_vehicle removeAllEventHandlers 'GetIn';
-			};
-		}];
-
+	// Run the function recursively for every group member if vehicle is not alive or it's locked or the end destination is not provided
+	if (!alive _veh || locked _veh == 2 || isNil {_end}) exitWith {
+		private _units = units (group _civ);
+		{
+			[_x] join grpNull;
+			_x call rtk_fnc_civFlee; 
+		} forEach _units;
 	};
+
+	// Order AI and his fellow group members to enter the vehicle
+	_group addVehicle _veh;
+	(units _group) orderGetIn true;
+	_veh setVariable ["civFlee_end", _end]; 
+	// Event Handler runs the traffic function once every alive group member is in the vehicle
+	_veh addEventHandler ["GetIn", {
+		params ["_vehicle", "_role", "_unit", "_turret"];
+
+		_crew = units (group _unit);
+		{
+			_x assignAsCargo _veh;
+		} forEach (_crew select {_x != _civ});
+
+		if ({_x in _vehicle} count _crew == {alive _x} count _crew) then {
+			private _end = _vehicle getVariable "civFlee_end";
+			[_vehicle, nil, nil, _end] call rtk_fnc_civTraffic;
+			_vehicle removeAllEventHandlers 'GetIn';
+		};
+	}];
 };

@@ -6,10 +6,10 @@
 
     Parameter(s):
     0: Could be one of:
-    	OBJECT - trigger
-		STRING - marker
-		ARRAY - array in format [center, distance] or [center, [a, b, angle, rect, (height)]] or [center, a, b, angle, rect, (height)]
-		LOCATION - location
+    OBJECT - Trigger
+		STRING - Marker
+		ARRAY - Array in format [center, distance] or [center, [a, b, angle, rect, (height)]] or [center, a, b, angle, rect, (height)]
+		LOCATION - Location
     1: ARRAY - Type of terrain objects to hide (Possible type names: https://community.bistudio.com/wiki/nearestTerrainObjects)
     
     Returns:
