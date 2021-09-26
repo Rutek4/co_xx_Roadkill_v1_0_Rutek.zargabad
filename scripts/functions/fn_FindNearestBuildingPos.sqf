@@ -2,7 +2,7 @@
     Author: Rutek 2021
 
     Description:
-	Finds random nearby enterable building in the closest city or a village.
+	Finds random nearby position in enterable building in the closest city or a village.
 
     Parameter(s):
     0: OBJECT - Object
@@ -11,7 +11,7 @@
     ARRAY - A single building position in format PositionAGL (https://community.bistudio.com/wiki/buildingPos).
 
     Example: 
-    [this] call rtk_fnc_findNearestHouse;
+    [this] call rtk_fnc_findNearestBuildingPos;
 */
 
 params ['_obj'];

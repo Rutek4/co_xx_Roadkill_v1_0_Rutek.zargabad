@@ -23,14 +23,16 @@ params ['_civ', '_veh', '_end'];
 
 _civ enableAI 'PATH';
 _civ enableAI 'MOVE';
+_civ disableAI 'FSM';
 _civ disableAi 'TARGET';
 _civ disableAi 'AUTOTARGET';
 _civ disableAi 'AUTOCOMBAT';
 _civ disableAi 'COVER';
+_civ setBehaviour 'CARELESS';
 _civ setSpeedMode 'FULL';
 
 if (isNil {_veh}) then {
-    private _pos = _civ call rtk_fnc_findNearestHouse;
+    private _pos = _civ call rtk_fnc_findNearestBuildingPos;
     _civ moveTo _pos;
 
 

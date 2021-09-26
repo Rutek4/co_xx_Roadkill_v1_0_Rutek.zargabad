@@ -12,11 +12,11 @@ class EditorData
 	};
 	class ItemIDProvider
 	{
-		nextID=794;
+		nextID=795;
 	};
 	class MarkerIDProvider
 	{
-		nextID=1;
+		nextID=2;
 	};
 	class LayerIndexProvider
 	{
@@ -24,10 +24,10 @@ class EditorData
 	};
 	class Camera
 	{
-		pos[]={3484.8245,23.449926,1880.9435};
-		dir[]={0.80366206,-0.35096416,0.48072779};
-		up[]={0.30121866,0.93637484,0.18018037};
-		aside[]={0.51338005,9.3691051e-007,-0.85825801};
+		pos[]={3474.5645,167.58559,1391.4061};
+		dir[]={-0.61008638,-0.71859246,-0.33390787};
+		up[]={-0.63034767,0.69543725,-0.34499645};
+		aside[]={-0.48012581,-9.6252188e-007,0.87723786};
 	};
 };
 binarizationWanted=0;
@@ -81,13 +81,14 @@ addons[]=
 	"ace_captives",
 	"rhs_c_heavyweapons",
 	"UK3CB_Factions_Weapons_AK47",
-	"UK3CB_Factions_Weapons_FNFAL"
+	"UK3CB_Factions_Weapons_FNFAL",
+	"A3_Ui_F"
 };
 class AddonsMetaData
 {
 	class List
 	{
-		items=41;
+		items=42;
 		class Item0
 		{
 			className="UK3CB_Factions_Vehicles_LAV25";
@@ -358,6 +359,13 @@ class AddonsMetaData
 			author="Red Hammer Studios";
 			url="http://www.rhsmods.org/";
 		};
+		class Item41
+		{
+			className="A3_Ui_F";
+			name="Arma 3 - User Interface";
+			author="Bohemia Interactive";
+			url="https://www.arma3.com";
+		};
 	};
 };
 dlcs[]=
@@ -399,7 +407,7 @@ class Mission
 	};
 	class Entities
 	{
-		items=272;
+		items=273;
 		class Item0
 		{
 			dataType="Object";
@@ -14555,6 +14563,17 @@ class Mission
 			id=789;
 			type="Land_WaterBottle_01_empty_F";
 			atlOffset=-3.4332275e-005;
+		};
+		class Item272
+		{
+			dataType="Marker";
+			position[]={3337.7708,11.882616,1382.4951};
+			name="area_1";
+			markerType="RECTANGLE";
+			type="rectangle";
+			a=83.816406;
+			b=82.271484;
+			id=794;
 		};
 	};
 	class Connections

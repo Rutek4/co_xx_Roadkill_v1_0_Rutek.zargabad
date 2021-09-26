@@ -36,10 +36,11 @@ class CfgFunctions
          	class UnitSurrender {};
 			class CivFlee {};
 			class CivConvert {};
-			class CivSpawn {};
+			class CivSpawnArea {};
 			class CivTraffic {};
 			class DestroyEquipment {};
-			class FindNearestHouse {};
+			class FindNearestBuildingPos {};
+			class FindTerrainObjects {};
 			class Flare {};
 			class GroupCache {};
 			class GroupFeatures {};

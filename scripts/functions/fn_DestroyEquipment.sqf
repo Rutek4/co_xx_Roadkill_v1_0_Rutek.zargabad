@@ -2,7 +2,7 @@
     Author: Rutek 2021
 
     Description:
-    Adds the hold action on the specifiec object which allows to throw grenade inside to destroy it.
+    Adds the hold action on the specifiec object which allows to throw grenade inside the object to destroy it.
 
     Parameter(s):
     0: OBJECT - Object to be allowed for the destruction.
@@ -12,7 +12,7 @@
     NUMBER - Action ID
 
     Example: 
-    [this, 'rhs_mag_an_m14_th3'] call rtk_fnc_destroyEquipment
+    [this, 'rhs_mag_an_m14_th3'] call rtk_fnc_destroyEquipment;
 */
 
 params ['_obj', '_className'];

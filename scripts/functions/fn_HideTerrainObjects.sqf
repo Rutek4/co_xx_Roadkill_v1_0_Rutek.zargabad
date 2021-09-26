@@ -2,14 +2,15 @@
     Author: Rutek 2021
 
     Description:
+    Hides the terrain objects within given area.
     It works the same way as Hide Terrain Objects module, but here you can choose the type of objects to hide.
 
     Parameter(s):
     0: Could be one of:
-    OBJECT - Trigger
-		STRING - Marker
-		ARRAY - Array in format [center, distance] or [center, [a, b, angle, rect, (height)]] or [center, a, b, angle, rect, (height)]
-		LOCATION - Location
+      OBJECT - Trigger
+      STRING - Marker
+      ARRAY - Array in format [center, distance] or [center, [a, b, angle, rect, (height)]] or [center, a, b, angle, rect, (height)]
+      LOCATION - Location
     1: ARRAY - Type of terrain objects to hide (Possible type names: https://community.bistudio.com/wiki/nearestTerrainObjects)
     
     Returns:
@@ -21,6 +22,5 @@
 params ['_pos', ['_types', []]];
 
 private _area = _pos call BIS_fnc_getArea;
-private _size = (_area # 1 max _area # 2) * 1.42;
-private _found = nearestTerrainObjects [_area # 0, _types, _size, false, true]; 
+private _found = [_area, _types] call rtk_fnc_findTerrainObjects;
 { _x hideobjectglobal true } forEach (_found inAreaArray _area);
