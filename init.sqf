@@ -83,7 +83,7 @@ if (!isDedicated) then {
 	[] execVM 'scripts\briefing.sqf';
 	// [] execVM 'scripts\tabMySquad.sqf';
 	// ['AO_marker'] execVM 'scripts\ao_marker.sqf';
-	[lav_1, lav_2, lav_3, lav_4] execVM 'scripts\ai_drivers.sqf';
+	[lav_1, lav_2, lav_3] execVM 'scripts\ai_drivers.sqf';
 	
 	['endScreen', {_this execVM 'scripts\endscreen\endScreen.sqf'}] call CBA_fnc_addEventHandler;
 

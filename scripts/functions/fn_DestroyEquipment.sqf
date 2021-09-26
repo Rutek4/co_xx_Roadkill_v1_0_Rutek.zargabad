@@ -2,84 +2,81 @@
     Author: Rutek 2021
 
     Description:
-    Forces AI to flee with applied animation. 
-    AI will look for nearby house or enterable building in the closest city or a village.
-    AI will use the specified vehicle if both optional parameters are provided.
+    Adds the hold action on the specifiec object which allows to throw grenade inside to destroy it.
 
     Parameter(s):
-    0: OBJECT - Civilian AI that is to be fleeing.
-    1: OBJECT (optional) - Vehicle to be used by fleeing AI.
-    2: OBJECT (optional) - Final destination for fleeing vehicle.
+    0: OBJECT - Object to be allowed for the destruction.
+    1: STRING - Class Name of the grenade which can destroy the object.
     
     Returns:
-    None
+    NUMBER - Action ID
 
     Example: 
-    [this] call rtk_fnc_civFlee;
-    [this, car_1, target] call rtk_fnc_civFlee;
+    [this, 'rhs_mag_an_m14_th3'] call rtk_fnc_destroyEquipment
 */
 
-currentNadeMag_fnc = {
+params ['_obj', '_className'];
+
+_obj setVariable ['destroyGrenade', _className]; 
+
+getGrenadeMag_fnc = {
 	params ['_caller'];
-	_currentNadeArr = currentThrowable _caller;
-	_currentNadeMag = "";
-	if (count _currentNadeArr > 0) then {
-		_currentNadeMag = _currentNadeArr select 0;
+	private _arr = currentThrowable _caller;
+	private _mag = '';
+	if (count _arr > 0) then {
+		_mag = _arr # 0;
 	};
-	_currentNadeMag
+	_mag
 };
 
-currentNadeAmmo_fnc = {
+getGrenadeAmmo_fnc = {
 	params ['_caller'];
-	_currentNadeMag = [_caller] call currentNadeMag_fnc;
-	_currentNadeAmmo = "";
-	if (_currentNadeMag != "") then {
-		_currentNadeAmmo = getText(configfile >> "CfgMagazines" >> _currentNadeMag >> "ammo");
+	private _mag = [_caller] call getGrenadeMag_fnc;
+	private _ammo = '';
+	if (_mag != '') then {
+		_ammo = getText(configfile >> 'CfgMagazines' >> _mag >> 'ammo');
 	};
-	_currentNadeAmmo
+	_ammo
 };
 
-isFrag_fnc = {
-	params ['_caller'];
-	_currentNadeAmmo = [_caller] call currentNadeAmmo_fnc;
-	_isFrag = false;
-	if (_currentNadeAmmo != "") then {
-		if (getNumber(configfile >> "CfgAmmo" >> _currentNadeAmmo >> "explosive") == 1) then {
-			_isFrag = true;
-		};
+isCorrectGrenade_fnc = {
+	params ['_target', '_caller'];
+	private _grenade = _target getVariable 'destroyGrenade';
+	private _mag = [_caller] call getGrenadeMag_fnc;
+	private _isCorrect = false;
+	if (_mag == _grenade) then {
+		_isCorrect = true;
 	};
-	_isFrag
+	_isCorrect
 };
 
-_mortar = _this select 0;
-
-_id = [
-	_mortar,    
-	"Wrzuć granat",    
-	"\rhsgref\addons\rhsgref_weapons\icons\f1_ca.paa",    
-	"\a3\ui_f\data\IGUI\Cfg\actions\take_ca.paa",    
-	"_this distance _target < 2 AND alive _target",    
-	"_caller distance _target < 2 AND alive _target && [_caller] call isFrag_fnc",    
+private _id = [
+	_obj,    
+	'Wrzuć granat',    
+	getText(configfile >> 'CfgMagazines' >> _className >> 'picture'),    
+	'\a3\ui_f\data\IGUI\Cfg\actions\take_ca.paa',    
+	'_this distance _target < 3 AND alive _target',    
+	'_caller distance _target < 3 AND alive _target && [_target, _caller] call isCorrectGrenade_fnc',    
 	{   
-		if (!([_caller] call isFrag_fnc) && (local _caller)) then {
-			hint "Wybierz granat odłamkowy";
+		if (!([_target, _caller] call isCorrectGrenade_fnc) && (local _caller)) then {
+			hint 'Wybierz odpowedni granat';
 		};   
 	},
 	{},
 	{   
-		[_target, _actionId] remoteExec ["BIS_fnc_holdActionRemove", 0]; 
-		[_target, "throwInside"] call CBA_fnc_globalSay3d;
-		_currentNadeMag = [_caller] call currentNadeMag_fnc;
-		_currentNadeAmmo = [_caller] call currentNadeAmmo_fnc;
+		[_target, _actionId] remoteExec ['BIS_fnc_holdActionRemove', 0]; 
+		_target say3D 'throwInside';
+		private _mag = [_caller] call getGrenadeMag_fnc;
+		private _ammo = [_caller] call getGrenadeAmmo_fnc;
 		sleep 1;
-		_granade = _currentNadeAmmo createVehicle (position _target);  
+		private _granade = _ammo createVehicle (position _target);  
 		_granade hideObjectGlobal true;
-		_caller removeMagazineGlobal _currentNadeMag;
-		_equipment = getUnitLoadout player;
+		_caller removeMagazineGlobal _mag;
+		private _equipment = getUnitLoadout player;
 		sleep 1;
 		player setUnitLoadout _equipment;
-		sleep 4;
-		_target setdamage 1;
+		sleep 5;
+		_target setdamage 0.8;
 	},
 	{    
 	},
@@ -89,3 +86,5 @@ _id = [
 	false,    
 	false    
 ] call BIS_fnc_holdActionAdd; 
+
+_id

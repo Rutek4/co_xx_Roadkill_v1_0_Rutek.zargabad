@@ -38,6 +38,7 @@ class CfgFunctions
 			class CivConvert {};
 			class CivSpawn {};
 			class CivTraffic {};
+			class DestroyEquipment {};
 			class FindNearestHouse {};
 			class Flare {};
 			class GroupCache {};
@@ -114,6 +115,13 @@ class CfgVehicles
 
 class CfgSounds
 {
+	class throwInside
+	{
+		name = "throwInside";
+		sound[] = {"sounds\throwInside.ogg", 1.0, 1};
+		titles[] = {1, ""};
+	};
+
 	class RadioTest
 	{
 		name = "radioTest";
