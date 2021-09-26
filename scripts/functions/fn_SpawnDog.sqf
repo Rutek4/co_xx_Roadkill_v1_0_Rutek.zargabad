@@ -14,11 +14,10 @@
 */
 
 params ['_pos'];
-private ['_dog', '_bark'];
 
-_dog = createAgent ["Fin_random_F", getPos _pos, [], 0, "CAN_COLLIDE"];
+private _dog = createAgent ["Fin_random_F", getPos _pos, [], 0, "CAN_COLLIDE"];
 _dog setVariable ["BIS_fnc_animalBehaviour_disable", true];
-_bark = createSoundSource ["barkingSound", position _dog, [], 0];
+private _bark = createSoundSource ["barkingSound", position _dog, [], 0];
 _bark attachTo [_dog];
 
 _dog addEventHandler ["Killed", {

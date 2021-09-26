@@ -20,7 +20,7 @@
 
 params ['_pos', ['_types', []]];
 
-_area = _pos call BIS_fnc_getArea;
-_size = (_area # 1 max _area # 2) * 1.42;
-_found = nearestTerrainObjects [_area # 0, _types, _size, false, true]; 
+private _area = _pos call BIS_fnc_getArea;
+private _size = (_area # 1 max _area # 2) * 1.42;
+private _found = nearestTerrainObjects [_area # 0, _types, _size, false, true]; 
 { _x hideobjectglobal true } forEach (_found inAreaArray _area);

@@ -24,10 +24,10 @@ class EditorData
 	};
 	class Camera
 	{
-		pos[]={3497.2493,31.017315,1897.2008};
-		dir[]={0.34492195,-0.78066069,-0.52121699};
-		up[]={0.43081856,0.6249615,-0.65101659};
-		aside[]={-0.83396214,-4.2180181e-007,-0.55188543};
+		pos[]={3484.8245,23.449926,1880.9435};
+		dir[]={0.80366206,-0.35096416,0.48072779};
+		up[]={0.30121866,0.93637484,0.18018037};
+		aside[]={0.51338005,9.3691051e-007,-0.85825801};
 	};
 };
 binarizationWanted=0;
@@ -14250,7 +14250,7 @@ class Mission
 			class PositionInfo
 			{
 				position[]={3495.2634,22.237125,1888.5675};
-				angles[]={0.0049914722,1.7239494,0.022495884};
+				angles[]={0.0049914722,1.5628102,0.022495884};
 			};
 			side="Empty";
 			flags=4;
@@ -14328,8 +14328,8 @@ class Mission
 			dataType="Object";
 			class PositionInfo
 			{
-				position[]={3486.7556,22.156294,1886.5098};
-				angles[]={0.01749678,1.7472665,0.0049914722};
+				position[]={3487.1975,22.181961,1885.1694};
+				angles[]={0.01749678,1.5861273,0.0049914722};
 			};
 			side="Empty";
 			flags=4;
@@ -14339,6 +14339,7 @@ class Mission
 			};
 			id=769;
 			type="rhs_2b14_82mm_msv";
+			atlOffset=-6.2942505e-005;
 			class CustomAttributes
 			{
 				class Attribute0
@@ -14406,7 +14407,7 @@ class Mission
 			dataType="Object";
 			class PositionInfo
 			{
-				position[]={3497.5117,21.79497,1892.2443};
+				position[]={3497.5117,21.795221,1892.2446};
 				angles[]={0.014992379,0.34995598,0.010000736};
 			};
 			side="Empty";
@@ -14414,11 +14415,11 @@ class Mission
 			class Attributes
 			{
 				init="[this, 'rhs_mag_an_m14_th3'] call rtk_fnc_DestroyEquipment;";
-				disableSimulation=1;
+				name="box";
 			};
 			id=778;
 			type="UK3CB_AK47_Equipbox_Indfor";
-			atlOffset=0.0067424774;
+			atlOffset=0.0069999695;
 			class CustomAttributes
 			{
 				class Attribute0
@@ -14448,15 +14449,14 @@ class Mission
 			dataType="Object";
 			class PositionInfo
 			{
-				position[]={3480.887,21.798141,1892.5334};
-				angles[]={0.024993783,3.1966927,0.0050033992};
+				position[]={3480.8865,21.798189,1892.5337};
+				angles[]={0.024993116,3.1966927,0.0050090947};
 			};
 			side="Empty";
 			flags=4;
 			class Attributes
 			{
 				init="[this, 'rhs_mag_an_m14_th3'] call rtk_fnc_DestroyEquipment;";
-				disableSimulation=1;
 			};
 			id=782;
 			type="UK3CB_FNFAL_Equipbox_Opfor";
@@ -14496,9 +14496,11 @@ class Mission
 			flags=4;
 			class Attributes
 			{
+				disableSimulation=1;
 			};
 			id=786;
 			type="Land_WaterBottle_01_pack_F";
+			atlOffset=-3.6239624e-005;
 		};
 		class Item269
 		{
@@ -14512,9 +14514,11 @@ class Mission
 			flags=4;
 			class Attributes
 			{
+				disableSimulation=1;
 			};
 			id=787;
 			type="Land_WaterBottle_01_pack_F";
+			atlOffset=-3.4332275e-005;
 		};
 		class Item270
 		{
@@ -14528,10 +14532,11 @@ class Mission
 			flags=4;
 			class Attributes
 			{
+				disableSimulation=1;
 			};
 			id=788;
 			type="Land_WaterBottle_01_compressed_F";
-			atlOffset=0.00010108948;
+			atlOffset=9.1552734e-005;
 		};
 		class Item271
 		{
@@ -14545,9 +14550,11 @@ class Mission
 			flags=4;
 			class Attributes
 			{
+				disableSimulation=1;
 			};
 			id=789;
 			type="Land_WaterBottle_01_empty_F";
+			atlOffset=-3.4332275e-005;
 		};
 	};
 	class Connections
