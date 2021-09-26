@@ -30,9 +30,12 @@ _civ disableAi 'COVER';
 _civ setSpeedMode 'FULL';
 
 if (isNil {_veh}) then {
+    private _pos = _civ call rtk_fnc_findNearestHouse;
+    _civ moveTo _pos;
+
+
 	[_civ] spawn {
 		params ['_civ'];
-	    private _pos = [_civ] call rtk_fnc_findNearestHouse;
 
 		while {alive _civ} do {
 			// Delete AI if it's in the destination position and no player found within 300m range from the AI
@@ -41,13 +44,16 @@ if (isNil {_veh}) then {
 			};
 			// Force AI to stop if there is any player within 10m from the AI
 			if ({_x distance _civ < 10} count allPlayers > 0) then {
-				doStop _civ;
+				// doStop _civ;
+				_civ stop true;
 				_civ playMoveNow 'ApanPknlMstpSnonWnonDnon_G01';
 			} else {
 				// Resume the doMove if there is no player close to AI and AI is not moving
 	    		if ((speed _civ) == 0) then {
+					_civ stop false;
 	    			_civ playMoveNow 'ApanPknlMstpSnonWnonDnon_G01';
-		    		_civ doMove _pos;
+		    		// _civ doMove _pos;
+					_civ moveTo _pos;
 	    		};
 			};
 
