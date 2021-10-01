@@ -164,5 +164,26 @@ class CfgSounds
 		sound[] = {"sounds\mortar4.ogg", 30.0, 1};
 		titles[] = {1, ""};
 	};
+
+	class Cry1
+	{
+		name = "cry1";
+		sound[] = {"sounds\cry1.ogg", 0.5, 1};
+		titles[] = {1, ""};
+	};
+
+	class Cry2
+	{
+		name = "cry2";
+		sound[] = {"sounds\cry2.ogg", 0.5, 1};
+		titles[] = {1, ""};
+	};
+
+	class Cry3
+	{
+		name = "cry3";
+		sound[] = {"sounds\cry3.ogg", 0.5, 1};
+		titles[] = {1, ""};
+	};
 	
 };

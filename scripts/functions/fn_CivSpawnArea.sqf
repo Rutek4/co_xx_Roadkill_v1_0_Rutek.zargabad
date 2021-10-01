@@ -12,7 +12,6 @@
 		LOCATION - Location
 	1: STRING - Class name of the civilian to be spawned as agent.
 	
-    
     Returns:
 	ARRAY - Spawned civilian agents.
 
@@ -46,11 +45,18 @@ for '_k' from 0 to (count _allBuildings) do {
 			_civ setBehaviour 'CARELESS';
 			_civ setSpeedMode 'FULL';
 
-			_civ addEventHandler ['FiredNear', {
-				params ['_unit'];
+			[{_this playMoveNow 'ApanPknlMstpSnonWnonDnon_G01';}, _civ, round (random 5)] call CBA_fnc_waitAndExecute;
 
-				_unit playMoveNow 'ApanPknlMstpSnonWnonDnon_G01';
-				_unit removeAllEventHandlers "FiredNear";
+			_civ addEventHandler ['FiredNear', {
+				params ["_unit", "_firer", "_distance"];
+
+				if (_distance < 10) then {
+					_unit say3D (selectRandom ['cry1', 'cry2', 'cry3']);
+					private _pos = _unit call rtk_fnc_findNearestBuildingPos;
+					_unit moveTo _pos;
+					_unit removeAllEventHandlers "FiredNear";
+				};
+
 			}];
 
 			_civs pushBack _civ;
