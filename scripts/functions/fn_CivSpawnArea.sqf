@@ -32,6 +32,30 @@ for '_k' from 0 to (count _allBuildings) do {
 	};
 };
 
+addCivEventHandler_rtk_fnc = {
+	params ['_civ'];
+	_civ addEventHandler ['FiredNear', {
+		params ["_unit", "_firer", "_distance"];
+
+		if (_distance < 5) then {
+			_unit say3D (selectRandom ['cry1', 'cry2', 'cry3']);
+			private _pos = _unit call rtk_fnc_findNearestBuildingPos;
+			_unit moveTo _pos;
+			_unit removeAllEventHandlers "FiredNear";
+
+			[{(_this # 0) distance (_this # 1) < 3}, {
+				[(_this # 0)] call addCivEventHandler_rtk_fnc;
+				hint 'add';
+			}, [_unit, _pos], 60, {
+				if (alive (this # 0)) then {
+					[(_this # 0)] call addCivEventHandler_rtk_fnc;
+				};
+				hint 'else ad';
+			}] call CBA_fnc_waitUntilAndExecute;
+		};
+	}];
+};
+
 {
 	private _house = _x;
 	{
@@ -46,26 +70,7 @@ for '_k' from 0 to (count _allBuildings) do {
 			_civ setSpeedMode 'FULL';
 
 			[{_this playMoveNow 'ApanPknlMstpSnonWnonDnon_G01';}, _civ, round (random 5)] call CBA_fnc_waitAndExecute;
-
-			_civ addEventHandler ['FiredNear', {
-				params ["_unit", "_firer", "_distance"];
-
-				if (_distance < 5) then {
-					// _unit playMoveNow 'ApanPknlMstpSnonWnonDnon_G01';
-					_unit say3D (selectRandom ['cry1', 'cry2', 'cry3']);
-					private _pos = _unit call rtk_fnc_findNearestBuildingPos;
-					_unit moveTo _pos;
-					_unit removeAllEventHandlers "FiredNear";
-				};
-
-			}];
-
-			_civ addEventHandler ["AnimChanged", {
-				params ["_unit", "_anim"];
-				_unit playMoveNow 'ApanPknlMstpSnonWnonDnon_G01';
-				hint format['%1', _anim];
-			}];
-
+			[_civ] call addCivEventHandler_rtk_fnc;
 			_civs pushBack _civ;
 		};
 	// Select only positions on ground level (prevention against spawning on the roof)
