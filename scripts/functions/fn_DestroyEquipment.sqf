@@ -19,7 +19,7 @@ params ['_obj', '_className'];
 
 _obj setVariable ['destroyGrenade', _className]; 
 
-getGrenadeMag_fnc = {
+getGrenadeMag_rtk_fnc = {
 	params ['_caller'];
 	private _arr = currentThrowable _caller;
 	private _mag = '';
@@ -29,9 +29,9 @@ getGrenadeMag_fnc = {
 	_mag
 };
 
-getGrenadeAmmo_fnc = {
+getGrenadeAmmo_rtk_fnc = {
 	params ['_caller'];
-	private _mag = [_caller] call getGrenadeMag_fnc;
+	private _mag = [_caller] call getGrenadeMag_rtk_fnc;
 	private _ammo = '';
 	if (_mag != '') then {
 		_ammo = getText(configfile >> 'CfgMagazines' >> _mag >> 'ammo');
@@ -39,10 +39,10 @@ getGrenadeAmmo_fnc = {
 	_ammo
 };
 
-isCorrectGrenade_fnc = {
+geisCorrectGrenade_rtk_fnc = {
 	params ['_target', '_caller'];
 	private _grenade = _target getVariable 'destroyGrenade';
-	private _mag = [_caller] call getGrenadeMag_fnc;
+	private _mag = [_caller] call getGrenadeMag_rtk_fnc;
 	private _isCorrect = false;
 	if (_mag == _grenade) then {
 		_isCorrect = true;
@@ -56,9 +56,9 @@ private _id = [
 	getText(configfile >> 'CfgMagazines' >> _className >> 'picture'),    
 	'\a3\ui_f\data\IGUI\Cfg\actions\take_ca.paa',    
 	'_this distance _target < 3 AND alive _target',    
-	'_caller distance _target < 3 AND alive _target && [_target, _caller] call isCorrectGrenade_fnc',    
+	'_caller distance _target < 3 AND alive _target && [_target, _caller] call geisCorrectGrenade_rtk_fnc',    
 	{   
-		if (!([_target, _caller] call isCorrectGrenade_fnc) && (local _caller)) then {
+		if (!([_target, _caller] call geisCorrectGrenade_rtk_fnc) && (local _caller)) then {
 			hint 'Wybierz odpowedni granat';
 		};   
 	},
@@ -66,8 +66,8 @@ private _id = [
 	{   
 		[_target, _actionId] remoteExec ['BIS_fnc_holdActionRemove', 0]; 
 		_target say3D 'throwInside';
-		private _mag = [_caller] call getGrenadeMag_fnc;
-		private _ammo = [_caller] call getGrenadeAmmo_fnc;
+		private _mag = [_caller] call getGrenadeMag_rtk_fnc;
+		private _ammo = [_caller] call getGrenadeAmmo_rtk_fnc;
 		sleep 1;
 		private _granade = _ammo createVehicle (position _target);  
 		_granade hideObjectGlobal true;
