@@ -46,6 +46,7 @@ while {(count _houses) < 5 && _i <= 20} do {
 _pos = _loc;
 if ((count _houses) > 1) then {
 	private _house = selectRandom _houses;
+	// Select only positions on ground level (prevention against spawning on the roof)
 	_pos = selectRandom ((_house buildingPos -1) select {(_x # 2) < 1});
 };
 

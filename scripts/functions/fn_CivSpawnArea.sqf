@@ -35,7 +35,7 @@ for '_k' from 0 to (count _allBuildings) do {
 {
 	private _house = _x;
 	{
-		if (round (random 1) > 0) then {
+		if (round (random 3) > 2) then {
 			private _civ = createAgent [_className, _x, [], 0, 'CAN_COLLIDE'];
 			_civ disableAI 'FSM';
 			_civ disableAi 'TARGET';
@@ -50,13 +50,20 @@ for '_k' from 0 to (count _allBuildings) do {
 			_civ addEventHandler ['FiredNear', {
 				params ["_unit", "_firer", "_distance"];
 
-				if (_distance < 10) then {
+				if (_distance < 5) then {
+					// _unit playMoveNow 'ApanPknlMstpSnonWnonDnon_G01';
 					_unit say3D (selectRandom ['cry1', 'cry2', 'cry3']);
 					private _pos = _unit call rtk_fnc_findNearestBuildingPos;
 					_unit moveTo _pos;
 					_unit removeAllEventHandlers "FiredNear";
 				};
 
+			}];
+
+			_civ addEventHandler ["AnimChanged", {
+				params ["_unit", "_anim"];
+				_unit playMoveNow 'ApanPknlMstpSnonWnonDnon_G01';
+				hint format['%1', _anim];
 			}];
 
 			_civs pushBack _civ;
