@@ -45,12 +45,10 @@ addCivEventHandler_rtk_fnc = {
 
 			[{(_this # 0) distance (_this # 1) < 3}, {
 				[(_this # 0)] call addCivEventHandler_rtk_fnc;
-				hint 'add';
 			}, [_unit, _pos], 60, {
 				if (alive (this # 0)) then {
 					[(_this # 0)] call addCivEventHandler_rtk_fnc;
 				};
-				hint 'else ad';
 			}] call CBA_fnc_waitUntilAndExecute;
 		};
 	}];

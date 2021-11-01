@@ -6,102 +6,116 @@
    	AI will slow down and eventually stop the vehicle if there is any player nearby or other occupied vehicle is in front.
    	Fleeing AI function will be applied to every crew member once he gets out the vehicle.
 	Not to be used with AI's two way traffic.
-	There are 2 ways to use this function:
-	1: Provide the existing vehicle and final destination
-	2: Provide the classname, spawn point and final destination.
 
     Parameter(s):
-    0: OBJECT (optional) - Existing vehicle with AI on board.
-    1: OBJECT (optional) - Vehicle's classname to be spawned.
-    2: OBJECT (optional) - Spawn point for vehicle.
+    1: OBJECT - Vehicle's classname to be spawned.
+    2: OBJECT - Spawn point for vehicle.
     3: OBJECT - Final destination for fleeing vehicle.
     
     Returns:
-    None
+	ARRAY - Vehicle crew.
 
     Example: 
-    [car_1, nil, nil, target] call rtk_fnc_civTraffic;
-    [nil, 'UK3CB_TKC_C_Datsun_Civ_Closed', start, end] call rtk_fnc_civTraffic;
+    ['UK3CB_TKC_C_Ikarus', start, end] call rtk_fnc_civTraffic;
 */
 
-params ['_veh', '_class', '_start', '_end'];
-private ['_dir', '_vehCont', '_group', '_wp'];
-// Spawn new vehicle or use the provided one
-if (isNil {_veh}) then {
-	_dir = [_start, _end] call BIS_fnc_dirTo;
+params ['_vehClass', '_start', '_end'];
 
-	_vehCont = [(getpos _start), _dir, _class, civilian] call BIS_fnc_spawnVehicle;
-	_veh = _vehCont # 0;
-	_group = _vehCont # 2;
-} else {
-	_group = group (driver _veh);
+private _pos = getPos _start;
+private _dir = [_start, _end] call BIS_fnc_dirTo;
+private _crew = [];
+private _seatsCount = getNumber (configFile >> "CfgVehicles" >> _vehClass >> "transportSoldier");
+private _crewClass = [civilian, configFile >> "CfgVehicles" >> _vehClass] call BIS_fnc_selectCrew;
+
+private _veh = _vehClass createVehicle _pos;
+_veh setDir _dir;
+private _driver = createAgent [_crewClass, _pos, [], 0, 'NONE'];
+_driver moveInDriver _veh;
+_crew pushBack _driver;
+
+for '_k' from 0 to _seatsCount do {
+	if (round (random 3) > 2) then {
+		private _passenger = createAgent [_crewClass, _pos, [], 0, 'NONE'];
+		_passenger moveInCargo [_veh, _seatsCount];
+		_crew pushBack _passenger;
+	};
 };
 
-_veh disableAi 'TARGET';
-_veh disableAi 'AUTOTARGET';
-_veh disableAi 'AUTOCOMBAT';
-_veh disableAi 'COVER';
+{
+	_x disableAI 'FSM';
+	_x disableAi 'TARGET';
+	_x disableAi 'AUTOTARGET';
+	_x disableAi 'AUTOCOMBAT';
+	_x disableAi 'COVER';
+	_x setBehaviour 'SAFE';
+	_x setSpeedMode 'NORMAL';
+} forEach _crew;
+
 _veh setCaptive true;
 _veh forceFollowRoad true;
-_veh allowCrewInImmobile true;
-_group allowFleeing 0;
+_veh forceSpeed (_veh getSpeed 'NORMAL');
 
-_wp = _group addWaypoint [_end, 0];
+civDelete_rtk_fnc = {
+	params ['_civ'];
 
-_wp setWaypointType 'MOVE';
-_wp setWaypointBehaviour 'SAFE';
-_wp setWaypointCombatMode 'BLUE';
-_wp setWaypointSpeed 'NORMAL';
-// Delete AI's vehicle and group once AI is in the final destination
-_wp setWaypointStatements [
-	'true',
-	'private _group = group this; 
-	if (local _group) then {
-		private _veh = vehicle this; 
-		{ _veh deleteVehicleCrew _x } forEach crew _veh; 
-		deleteVehicle _veh;
-		{ deleteVehicle _x } forEach units _group;
-		deleteGroup _group;
-	};
-	_veh removeAllEventHandlers ''Killed'';
-	_veh removeAllEventHandlers ''GetOut'';'
-];
-// Event Handler forces driver's group members to leave vehicle once he is killed
-(driver _veh) addEventHandler ["Killed", {
-	params ["_unit", "_killer", "_instigator", "_useEffects"];
-	private ['_vehicle', '_group'];
+	[{
+		if ({_this distance _x < 300} count allPlayers > 0) then {
+			_this call civDelete_rtk_fnc;
+		} else {
+			deleteVehicle _this;
+		}
+	}, _civ, 300] call CBA_fnc_waitAndExecute;
+};
 
-	_vehicle = objectParent _unit;
-	_group = group _unit;
-	deleteWaypoint [_group, 0];
-	doGetOut (units _group);
-	_group leaveVehicle _vehicle;
+civFlee_rtk_fnc = {
+	params ['_veh'];
+
+	private _crew = crew _veh;
 	{
-		unassignVehicle _x; 
-	} forEach units _group;
+		private _passenger = _x;
+		[{
+			_this enableAI "PATH";
+			moveOut _this;
+			_this playMoveNow 'ApanPknlMstpSnonWnonDnon_G01';
+			private _pos = _this call rtk_fnc_findNearestBuildingPos;
+			_this moveTo _pos;
+			if (round (random 1) > 0) then {
+				_this say3D (selectRandom ['cry1', 'cry2', 'cry3']);
+			};
+			_this call civDelete_rtk_fnc;
+		}, _passenger, round (random 3)] call CBA_fnc_waitAndExecute;
+	} forEach _crew;
+};
+
+_driver addEventHandler ["Killed", {
+	params ["_unit"];
+
+	private _vehicle = objectParent _unit;
+	_vehicle call civFlee_rtk_fnc;
 	_unit removeAllEventHandlers 'Killed';
 }];
-// Event Handler applies the civFlee function to every AI which left the vehicle
-_veh addEventHandler ['GetOut', {
-	params ['_vehicle', '_role', '_unit', '_turret'];
 
-	[_unit] join grpNull; 
-	_unit call rtk_fnc_civFlee;
-	if ({alive _x} count (crew _vehicle) == 0) then {
-		_vehicle removeAllEventHandlers 'GetOut';
+_veh addEventHandler ["Dammaged", {
+	params ["_unit"];
+
+	if (!canMove _unit) then {
+		_unit call civFlee_rtk_fnc;
+		(driver _unit) removeAllEventHandlers 'Killed';
+		_unit removeAllEventHandlers 'Dammaged';
 	};
 }];
 
-[_veh] spawn {
-    params ['_veh'];
-    private ['_entities', '_isStop', '_blockade'];
+_veh moveTo (getPos _end);
 
-    while {alive _veh && alive (driver _veh)} do {
+null = [_veh, _end] spawn {
+    params ['_veh', '_end'];
+	
+	private _driver = (driver _veh);
+    while {canMove _veh && alive _veh && alive _driver} do {
     	// Gather all entities except vehicle itself within 50m range from the vehicle
-    	_entities = ((ASLToAGL getPosASL _veh) nearEntities 50) select {_x != _veh};
+    	private _entities = ((ASLToAGL getPosASL _veh) nearEntities 50) select {_x != _veh};
 
-    	_isStop = false;
-    	_blockade = objNull;
+    	private _blockade = objNull;
     	for '_i' from 0 to (count _entities) do {
 			private _entity = _entities # _i;
 			// Limit vehicle's speed if there is any player nearby or there is a occupied vehicle in front
@@ -119,14 +133,23 @@ _veh addEventHandler ['GetOut', {
     	};
     	// Force AI to stop if there is any blockade found
     	if (!isNull _blockade && _veh distance2D _blockade < 25) then {
-			doStop _veh;
+			_driver disableAI "PATH";
 		} else {
 			// Resume the standard move if the blockade is no longer found and vehicle is not moving
 			if ((speed _veh) == 0) then {
-				_veh forceSpeed -1;
-	    		_veh doFollow (effectiveCommander _veh);
+				_veh forceSpeed (_veh getSpeed 'NORMAL');
+				_driver enableAI "PATH";
     		};
+		};
+
+		if (_veh distance2D _end < 20) then {
+			{
+				deleteVehicle _x;
+			} forEach (crew _veh);
+			deleteVehicle _veh;
 		};
     	sleep 0.5;
     };
 };
+
+[_veh, _crew]
