@@ -35,7 +35,7 @@ class CfgFunctions
          	file = "scripts\functions";
          	class UnitSurrender {};
 			class CivSpawnArea {};
-			class CivTraffic {};
+			class CivSpawnCar {};
 			class DestroyEquipment {};
 			class FindNearestBuildingPos {};
 			class FindTerrainObjects {};

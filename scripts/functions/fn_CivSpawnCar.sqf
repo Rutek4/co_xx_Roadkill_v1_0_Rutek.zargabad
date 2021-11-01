@@ -16,14 +16,21 @@
 	ARRAY - Vehicle crew.
 
     Example: 
-    ['UK3CB_TKC_C_Ikarus', start, end] call rtk_fnc_civTraffic;
+    ['UK3CB_TKC_C_Ikarus', start, end] call rtk_fnc_civSpawnCar;
 */
 
-params ['_vehClass', '_start', '_end'];
+params ['_vehClasses', '_start', '_end', ['_isLoop', false]];
+
+if ({_start distance _x < 50} count vehicles > 0) exitWith {
+	[{
+		_this call rtk_fnc_civSpawnCar;
+	}, [_vehClasses, _start, _end, _isLoop], 15] call CBA_fnc_waitAndExecute;
+};
 
 private _pos = getPos _start;
 private _dir = [_start, _end] call BIS_fnc_dirTo;
 private _crew = [];
+private _vehClass = selectRandom _vehClasses;
 private _seatsCount = getNumber (configFile >> "CfgVehicles" >> _vehClass >> "transportSoldier");
 private _crewClass = [civilian, configFile >> "CfgVehicles" >> _vehClass] call BIS_fnc_selectCrew;
 
@@ -48,12 +55,16 @@ for '_k' from 0 to _seatsCount do {
 	_x disableAi 'AUTOCOMBAT';
 	_x disableAi 'COVER';
 	_x setBehaviour 'SAFE';
-	_x setSpeedMode 'NORMAL';
+	_x setSpeedMode 'FULL';
+
+	if (isNull objectParent _x) then {
+		deleteVehicle _x;
+	}
 } forEach _crew;
 
 _veh setCaptive true;
 _veh forceFollowRoad true;
-_veh forceSpeed (_veh getSpeed 'NORMAL');
+_veh forceSpeed (_veh getSpeed 'FULL');
 
 civDelete_rtk_fnc = {
 	params ['_civ'];
@@ -107,8 +118,8 @@ _veh addEventHandler ["Dammaged", {
 
 _veh moveTo (getPos _end);
 
-null = [_veh, _end] spawn {
-    params ['_veh', '_end'];
+null = [_veh, _vehClasses, _start, _end, _isLoop] spawn {
+    params ['_veh', '_vehClasses', '_start', '_end', '_isLoop'];
 	
 	private _driver = (driver _veh);
     while {canMove _veh && alive _veh && alive _driver} do {
@@ -134,19 +145,27 @@ null = [_veh, _end] spawn {
     	// Force AI to stop if there is any blockade found
     	if (!isNull _blockade && _veh distance2D _blockade < 25) then {
 			_driver disableAI "PATH";
+			if (round (random 3) > 2) then {
+				// Horn
+				_driver forceWeaponFire [currentweapon _veh, currentWeapon _veh];
+			};
 		} else {
 			// Resume the standard move if the blockade is no longer found and vehicle is not moving
 			if ((speed _veh) == 0) then {
-				_veh forceSpeed (_veh getSpeed 'NORMAL');
+				_veh forceSpeed (_veh getSpeed 'FULL');
 				_driver enableAI "PATH";
     		};
 		};
-
+		// Delete vehicle and its crew on destination
 		if (_veh distance2D _end < 20) then {
 			{
 				deleteVehicle _x;
 			} forEach (crew _veh);
 			deleteVehicle _veh;
+
+			if (_isLoop) then {
+				[_vehClasses, _start, _end, _isLoop] call rtk_fnc_civSpawnCar;
+			}
 		};
     	sleep 0.5;
     };

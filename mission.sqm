@@ -5,29 +5,29 @@ class EditorData
 	angleGridStep=0.2617994;
 	scaleGridStep=1;
 	autoGroupingDist=10;
-	toggles=513;
+	toggles=1537;
 	mods[]=
 	{
 		"3denEnhanced"
 	};
 	class ItemIDProvider
 	{
-		nextID=873;
+		nextID=906;
 	};
 	class MarkerIDProvider
 	{
-		nextID=2;
+		nextID=3;
 	};
 	class LayerIndexProvider
 	{
-		nextID=22;
+		nextID=23;
 	};
 	class Camera
 	{
-		pos[]={4270.6191,45.412865,1755.7711};
-		dir[]={-0.17191815,-0.17248003,-0.96990532};
-		up[]={-0.030103805,0.98501217,-0.16983622};
-		aside[]={-0.98466307,-2.5764166e-008,0.17453362};
+		pos[]={3873.8301,161.47163,1673.4589};
+		dir[]={0.29723957,-0.4956986,0.81606883};
+		up[]={0.16964932,0.86849201,0.46577129};
+		aside[]={0.93962818,1.4598481e-007,-0.342244};
 	};
 };
 binarizationWanted=0;
@@ -739,7 +739,7 @@ class Mission
 	};
 	class Entities
 	{
-		items=267;
+		items=268;
 		class Item0
 		{
 			dataType="Object";
@@ -1353,8 +1353,8 @@ class Mission
 			dataType="Object";
 			class PositionInfo
 			{
-				position[]={4119.9141,17.535213,3764.5981};
-				angles[]={0.039979152,0,0.010000871};
+				position[]={4035.3992,24.99313,3562.353};
+				angles[]={0.0024897563,0,6.268187};
 			};
 			side="Empty";
 			flags=4;
@@ -1370,8 +1370,8 @@ class Mission
 			dataType="Object";
 			class PositionInfo
 			{
-				position[]={3163.8103,9.8370619,49.465355};
-				angles[]={6.2332273,0,6.2631893};
+				position[]={3170.9919,8.4346962,25.658203};
+				angles[]={6.2307329,0,6.2656851};
 			};
 			side="Empty";
 			flags=4;
@@ -13345,8 +13345,8 @@ class Mission
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={4269.8594,43.506001,1753.7458};
-						angles[]={0.01499443,0.52847797,0};
+						position[]={4249.7007,21.409849,2491.5908};
+						angles[]={6.1489968,3.6377335,6.1489964};
 					};
 					side="West";
 					flags=6;
@@ -14564,7 +14564,7 @@ class Mission
 			name="Bunker (Small) Checkpoint #O";
 			class Entities
 			{
-				items=13;
+				items=11;
 				class Item0
 				{
 					dataType="Object";
@@ -14665,42 +14665,6 @@ class Mission
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={4772.4736,57.443501,1450.9342};
-						angles[]={0.0099949092,0.020682326,0.01499443};
-					};
-					side="Empty";
-					flags=4;
-					class Attributes
-					{
-						skill=0.2;
-					};
-					id=852;
-					type="Land_CncBarrier_F";
-					atlOffset=6.4849854e-005;
-				};
-				class Item6
-				{
-					dataType="Object";
-					class PositionInfo
-					{
-						position[]={4776.1006,57.504711,1450.9332};
-						angles[]={0.0074931863,0.020682326,0.010000871};
-					};
-					side="Empty";
-					flags=4;
-					class Attributes
-					{
-						skill=0.2;
-					};
-					id=853;
-					type="Land_CncBarrier_F";
-					atlOffset=3.0517578e-005;
-				};
-				class Item7
-				{
-					dataType="Object";
-					class PositionInfo
-					{
 						position[]={4832.7437,70.939934,1655.7384};
 						angles[]={0,1.7468414,0};
 					};
@@ -14715,7 +14679,7 @@ class Mission
 					type="Land_fortified_nest_small_EP1";
 					atlOffset=-0.15882874;
 				};
-				class Item8
+				class Item6
 				{
 					dataType="Object";
 					class PositionInfo
@@ -14733,7 +14697,7 @@ class Mission
 					id=855;
 					type="Land_fortified_nest_small_EP1";
 				};
-				class Item9
+				class Item7
 				{
 					dataType="Object";
 					class PositionInfo
@@ -14752,7 +14716,7 @@ class Mission
 					type="Fort_Crate_wood";
 					atlOffset=-0.073890686;
 				};
-				class Item10
+				class Item8
 				{
 					dataType="Object";
 					class PositionInfo
@@ -14770,7 +14734,7 @@ class Mission
 					id=857;
 					type="Fort_Crate_wood";
 				};
-				class Item11
+				class Item9
 				{
 					dataType="Object";
 					class PositionInfo
@@ -14789,7 +14753,7 @@ class Mission
 					type="Land_fort_bagfence_long";
 					atlOffset=-0.13374329;
 				};
-				class Item12
+				class Item10
 				{
 					dataType="Object";
 					class PositionInfo
@@ -14893,6 +14857,19 @@ class Mission
 				};
 				nAttributes=1;
 			};
+		};
+		class Item267
+		{
+			dataType="Marker";
+			position[]={4104.4214,9.9179688,1975.5729};
+			name="area_2";
+			markerType="RECTANGLE";
+			type="rectangle";
+			a=101.30655;
+			b=348.21646;
+			angle=147.16386;
+			id=905;
+			atlOffset=-12.128208;
 		};
 	};
 	class Connections

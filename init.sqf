@@ -12,6 +12,29 @@ if (isServer) then {
 	// 	};
 	// };
 
+	for '_i' from 1 to 8 do { 
+		[{
+			[["UK3CB_TKC_C_Datsun_Civ_Closed",   
+			"UK3CB_TKC_C_Ikarus",   
+			"UK3CB_TKC_C_Datsun_Civ_Open",   
+			"UK3CB_TKC_C_Hatchback",   
+			"UK3CB_TKC_C_Hilux_Civ_Closed",   
+			"UK3CB_TKC_C_Hilux_Civ_Open",   
+			"UK3CB_TKC_C_Lada",   
+			"UK3CB_TKC_C_Lada_Taxi",   
+			"UK3CB_TKC_C_Pickup",   
+			"UK3CB_TKC_C_V3S_Closed",   
+			"UK3CB_TKC_C_Sedan",   
+			"UK3CB_TKC_C_Skoda",   
+			"UK3CB_TKC_C_S1203",   
+			"UK3CB_TKC_C_S1203_Amb",   
+			"UK3CB_TKC_C_TT650",   
+			"UK3CB_TKC_C_UAZ_Closed",   
+			"UK3CB_TKC_C_Gaz24",   
+			"UK3CB_TKC_C_YAVA"], (_this # 0), (_this # 1), true] call rtk_fnc_civSpawnCar; 
+		}, [start, end], (40 * _i)] call CBA_fnc_waitAndExecute;
+	};
+
 	ace_cookoff_enable = false;
 	ace_cookoff_enableAmmoCookoff = false;
 	ace_cookoff_ammoCookoffDuration = 0;
