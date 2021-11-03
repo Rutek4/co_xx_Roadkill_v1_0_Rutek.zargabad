@@ -32,13 +32,30 @@ _unit addEventHandler ["Reloaded", {
     _unit addMagazine _mag;
 }];
 
+private _fireMode = currentWeaponMode _unit;
+private _weaponModes = (getArray (configFile >> "CfgWeapons" >> (currentWeapon _unit) >> "modes"));
+_fireMode = switch (true) do {
+    case ("FullAuto" in _weaponModes): {
+        "FullAuto"
+    };
+    case ("close" in _weaponModes): {
+        "close"
+    };
+    case ("medium" in _weaponModes): {
+        "medium"
+    };
+    default {
+        currentWeaponMode _unit
+    };
+};
+
 private _target = "Land_WoodenBox_02_F" createVehicleLocal [0,0,0];
 // private _target = "CBA_O_InvisibleTarget" createVehicleLocal [0,0,0];
 _target allowdamage false;
 _unit reveal [_target, 4];
 
 [_unit, _fireMode, _area, _target] spawn {
-    params ["_unit","_fireMode", "_area", "_target"];
+    params ["_unit", "_fireMode", "_area", "_target"];
 
     while {alive _unit && _unit getVariable "isSuppressing"} do {
         private _enemies = (allUnits inAreaArray _area) select {(alive _x || lifeState _x != "Incapacitated") && side _x in (_unit call BIS_fnc_enemySides)};

@@ -21,9 +21,9 @@ enableDebugConsole = 1;
 
 class Header
 {
-     gameType=COOP;
-     minPlayers=1;
-     maxPlayers=21;
+     gameType = COOP;
+     minPlayers = 1;
+     maxPlayers = 21;
 };
 
 class CfgFunctions
@@ -97,6 +97,14 @@ class CfgSFX
 		sound0[] = {"sounds\barking.ogg", 2.0, 1.0, 200, 1, 1, 1, 5};
 		empty[] = {"", 0, 0, 0, 0, 0, 0, 0};
 	};
+
+	class InsurgentsRadioSFX
+	{
+		name = "insurgentsRadio";
+		sounds[] = {sound0};
+		sound0[] = {"sounds\insurgents_radio.ogg", 0.15, 1.0, 200, 1, 1, 1, 5};
+		empty[] = {"", 0, 0, 0, 0, 0, 0, 0};
+	};
 };
 
 class CfgVehicles
@@ -110,6 +118,11 @@ class CfgVehicles
 	{
 		sound = "barkingSoundSFX";
 	};
+
+	class InsurgentsRadio
+	{
+		sound = "insurgentsRadioSFX";
+	};
 };
 
 class CfgSounds
@@ -120,13 +133,6 @@ class CfgSounds
 		sound[] = {"sounds\throwInside.ogg", 1.0, 1};
 		titles[] = {1, ""};
 	};
-
-	class RadioTest
-	{
-		name = "radioTest";
-		sound[] = {"\@ca\Sounds\sfx\fire.wss", 0.5, 1.0};
-		titles[] = {0, ""};	
-	};		
 
 	class Firefight
 	{

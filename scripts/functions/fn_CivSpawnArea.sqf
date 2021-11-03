@@ -19,7 +19,7 @@
     [this] call rtk_fnc_civSpawnArea;
 */
 
-params ['_pos', ['_className', 'UK3CB_TKC_C_CIV']];
+params ['_pos', ['_isRunning', false], ['_max', -1], ['_className', 'UK3CB_TKC_C_CIV']];
 
 private _area = _pos call BIS_fnc_getArea;
 private _allBuildings = [_area, ['BUILDING', 'HOUSE']] call rtk_fnc_findTerrainObjects;
@@ -32,24 +32,56 @@ for '_k' from 0 to (count _allBuildings) do {
 	};
 };
 
+civRun_rtk_fnc = {
+	params ['_civ', '_houses'];
+
+	if (!alive _civ) exitWith {};
+
+	[{
+		private _civ = _this # 0;
+		private _house = selectRandom (_this # 1);
+		private _pos = selectRandom (_house buildingPos -1);
+
+		if (round (random 4) > 2) then {
+			_civ switchMove "";
+		} else {
+			_civ playMoveNow 'ApanPknlMstpSnonWnonDnon_G01';
+		};
+
+		if (round (random 3) > 2) then {
+			_civ setSpeedMode 'NORMAL';
+		};
+
+		_civ moveTo _pos;
+		_this call civRun_rtk_fnc;
+	}, [_civ, _houses], random (round 120)] call CBA_fnc_waitAndExecute;
+};
+
 addCivEventHandler_rtk_fnc = {
 	params ['_civ'];
+
+	if (!alive _civ) exitWith {
+		_civ removeAllEventHandlers "FiredNear";
+	};
+
 	_civ addEventHandler ['FiredNear', {
 		params ["_unit", "_firer", "_distance"];
 
 		if (_distance < 5) then {
-			_unit say3D (selectRandom ['cry1', 'cry2', 'cry3']);
-			private _pos = _unit call rtk_fnc_findNearestBuildingPos;
-			_unit moveTo _pos;
-			_unit removeAllEventHandlers "FiredNear";
+			[{
+				private _unit = _this;
+				_unit say3D (selectRandom ['cry1', 'cry2', 'cry3']);
+				private _pos = _unit call rtk_fnc_findNearestBuildingPos;
+				_unit moveTo _pos;
+				_unit removeAllEventHandlers "FiredNear";
 
-			[{(_this # 0) distance (_this # 1) < 3}, {
-				[(_this # 0)] call addCivEventHandler_rtk_fnc;
-			}, [_unit, _pos], 60, {
-				if (alive (this # 0)) then {
-					[(_this # 0)] call addCivEventHandler_rtk_fnc;
-				};
-			}] call CBA_fnc_waitUntilAndExecute;
+				[{(_this # 0) distance (_this # 1) < 3}, {
+					(_this # 0) call addCivEventHandler_rtk_fnc;
+				}, [_unit, _pos], 60, {
+					(_this # 0) call addCivEventHandler_rtk_fnc;
+				}] call CBA_fnc_waitUntilAndExecute;
+
+			}, _unit, round (random 3)] call CBA_fnc_waitAndExecute;
 		};
 	}];
 };
@@ -57,18 +89,26 @@ addCivEventHandler_rtk_fnc = {
 {
 	private _house = _x;
 	{
+		if (_max != -1 && count _civs >= _max) exitWith {};
+
 		if (round (random 3) > 2) then {
 			private _civ = createAgent [_className, _x, [], 0, 'CAN_COLLIDE'];
 			_civ disableAI 'FSM';
-			_civ disableAi 'TARGET';
-			_civ disableAi 'AUTOTARGET';
-			_civ disableAi 'AUTOCOMBAT';
-			_civ disableAi 'COVER';
+			_civ disableAI 'TARGET';
+			_civ disableAI 'AUTOTARGET';
+			_civ disableAI 'AUTOCOMBAT';
+			_civ disableAI 'COVER';
 			_civ setBehaviour 'CARELESS';
 			_civ setSpeedMode 'FULL';
 
-			[{_this playMoveNow 'ApanPknlMstpSnonWnonDnon_G01';}, _civ, round (random 5)] call CBA_fnc_waitAndExecute;
-			[_civ] call addCivEventHandler_rtk_fnc;
+			[{ _this playMoveNow 'ApanPknlMstpSnonWnonDnon_G01'; }, _civ, round (random 5)] call CBA_fnc_waitAndExecute;
+			
+			if (_isRunning) then {
+				[_civ, _houses] call civRun_rtk_fnc;
+			} else {
+				_civ call addCivEventHandler_rtk_fnc;
+			};
+
 			_civs pushBack _civ;
 		};
 	// Select only positions on ground level (prevention against spawning on the roof)

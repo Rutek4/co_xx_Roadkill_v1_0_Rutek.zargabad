@@ -152,9 +152,9 @@ null = [_veh, _vehClasses, _start, _end, _isLoop] spawn {
 		} else {
 			// Resume the standard move if the blockade is no longer found and vehicle is not moving
 			if ((speed _veh) == 0) then {
-				_veh forceSpeed (_veh getSpeed 'FULL');
 				_driver enableAI "PATH";
     		};
+			_veh forceSpeed (_veh getSpeed 'FULL');
 		};
 		// Delete vehicle and its crew on destination
 		if (_veh distance2D _end < 20) then {
@@ -164,7 +164,9 @@ null = [_veh, _vehClasses, _start, _end, _isLoop] spawn {
 			deleteVehicle _veh;
 
 			if (_isLoop) then {
-				[_vehClasses, _start, _end, _isLoop] call rtk_fnc_civSpawnCar;
+				[{
+					_this call rtk_fnc_civSpawnCar;
+				}, [_vehClasses, _start, _end, _isLoop], 30] call CBA_fnc_waitAndExecute;
 			}
 		};
     	sleep 0.5;
