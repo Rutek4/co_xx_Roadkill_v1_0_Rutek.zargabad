@@ -36,6 +36,7 @@ class CfgFunctions
          	class UnitSurrender {};
 			class CivSpawnArea {};
 			class CivSpawnCar {};
+			class CreateSFX {};
 			class DestroyEquipment {};
 			class FindNearestBuildingPos {};
 			class FindTerrainObjects {};
@@ -86,7 +87,7 @@ class CfgSFX
 	{
 		name = "flames";
 		sounds[] = {sound0};
-		sound0[] = {"\@ca\Sounds\sfx\fire.wss", 1.0, 1.0, 200, 1, 1, 1, 0};
+		sound0[] = {"\@ca\Sounds\sfx\fire.wss", 1.0, 1.0, 200, 1, 0, 0.025, 0.05};
 		empty[] = {"", 0, 0, 0, 0, 0, 0, 0};
 	};
 
@@ -105,23 +106,49 @@ class CfgSFX
 		sound0[] = {"sounds\insurgents_radio.ogg", 0.15, 1.0, 200, 1, 1, 1, 5};
 		empty[] = {"", 0, 0, 0, 0, 0, 0, 0};
 	};
+
+	class MegaphoneSFX
+	{
+		name = "megaphone";
+		sounds[] = {sound0};
+		sound0[] = {"sounds\megaphone.ogg", 8.0, 1.0, 600, 1, 0, 0.25, 0.5};
+		empty[] = {"", 0, 0, 0, 0, 0, 0, 0};
+	};
+
+	class FirefightSFX
+	{
+		name = "firefight";
+		sounds[] = {sound0};
+		sound0[] = {"sounds\firefight.ogg", 50.0, 1.0, 1000, 1, 0, 0.25, 0.5};
+		empty[] = {"", 0, 0, 0, 0, 0, 0, 0};
+	};
 };
 
 class CfgVehicles
 {
 	class FireSound
 	{
-		sound = "fireSoundSFX";
+		sound = "FireSoundSFX";
 	};
 
 	class BarkingSound
 	{
-		sound = "barkingSoundSFX";
+		sound = "BarkingSoundSFX";
 	};
 
 	class InsurgentsRadio
 	{
-		sound = "insurgentsRadioSFX";
+		sound = "InsurgentsRadioSFX";
+	};
+
+	class Megaphone
+	{
+		sound = "MegaphoneSFX";
+	};
+
+	class Firefight
+	{
+		sound = "FirefightSFX";
 	};
 };
 
@@ -134,60 +161,38 @@ class CfgSounds
 		titles[] = {1, ""};
 	};
 
-	class Firefight
+	class Ambient
 	{
-		name = "firefight";
-		sound[] = {"sounds\firefight.ogg", 2, 1.0};
+		name = "ambient";
+		sound[] = {"sounds\ambient.ogg", 1.0, 1.0};
 		titles[] = {0, ""};	
 	};		
-
-	class Mortar1
-	{
-		name = "mortar1";
-		sound[] = {"sounds\mortar1.ogg", 30.0, 1};
-		titles[] = {1, ""};
-	};
-
-	class Mortar2
-	{
-		name = "mortar2";
-		sound[] = {"sounds\mortar2.ogg", 30.0, 1};
-		titles[] = {1, ""};
-	};
-
-	class Mortar3
-	{
-		name = "mortar3";
-		sound[] = {"sounds\mortar3.ogg", 30.0, 1};
-		titles[] = {1, ""};
-	};
-
-	class Mortar4
-	{
-		name = "mortar4";
-		sound[] = {"sounds\mortar4.ogg", 30.0, 1};
-		titles[] = {1, ""};
-	};
 
 	class Cry1
 	{
 		name = "cry1";
-		sound[] = {"sounds\cry1.ogg", 0.5, 1};
+		sound[] = {"sounds\cry1.ogg", 0.5, 1, 20};
 		titles[] = {1, ""};
 	};
 
 	class Cry2
 	{
 		name = "cry2";
-		sound[] = {"sounds\cry2.ogg", 0.5, 1};
+		sound[] = {"sounds\cry2.ogg", 0.5, 1, 20};
 		titles[] = {1, ""};
 	};
 
 	class Cry3
 	{
 		name = "cry3";
-		sound[] = {"sounds\cry3.ogg", 0.5, 1};
+		sound[] = {"sounds\cry3.ogg", 0.5, 1, 20};
 		titles[] = {1, ""};
 	};
 	
+	class MegaphoneBroken
+	{
+		name = "MegaphoneBroken";
+		sound[] = {"sounds\megaphone_broken.ogg", 15.0, 1, 600};
+		titles[] = {1, ""};
+	};
 };
