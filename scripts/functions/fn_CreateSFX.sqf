@@ -38,4 +38,4 @@ _obj addEventHandler ["Deleted", {
 	_entity removeAllEventHandlers 'Deleted';
 }];
 
-_obj
+_sfx
