@@ -120,11 +120,13 @@ if (!isDedicated) then {
 		};
 	};
 
-	[] spawn {
-		while {true} do {
-			playSound 'ambient';
-			sleep 40;
-		};
+	[] spawn { 
+		while {true} do { 
+			if (player distance2D firefightSFX_1 < 3000) then {
+				playSound 'ambient'; 
+			};
+		sleep 40; 
+		}; 
 	};
 
 	// [] spawn {

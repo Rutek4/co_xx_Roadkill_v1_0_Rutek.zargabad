@@ -13,7 +13,7 @@
     Example: this call rtk_fnc_spawnDog;
 */
 
-params ['_obj', '_sound', ['_isDestructible', true]];
+params ['_obj', '_sound', ['_isDestructible', false]];
 
 private _sfx = createSoundSource [_sound, position _obj, [], 0];
 _sfx attachTo [_obj];
@@ -38,4 +38,4 @@ _obj addEventHandler ["Deleted", {
 	_entity removeAllEventHandlers 'Deleted';
 }];
 
-_obj
+_sfx
