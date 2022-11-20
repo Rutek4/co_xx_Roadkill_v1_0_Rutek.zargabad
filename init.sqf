@@ -101,8 +101,8 @@ if (!isDedicated) then {
 	player setVariable ['BIS_noCoreConversations', true];
 	[player, currentWeapon player, currentMuzzle player] call ace_safemode_fnc_lockSafety;
 
-	'colorCorrections' ppEffectAdjust [1, 1, 0, [0.5, 0.5, 0.5, 0.0],[1.5, 1.5, 1.5, 0.7],[-0.03, 0.27, 0.3, -0.19]];
-	'colorCorrections' ppEffectCommit 1; 
+	'colorCorrections' ppEffectAdjust [1, 1, 0, [0.5, 0.5, 0.5, 0.0],[1.6, 1.5, 1.4, 0.7],[-0.03, 0.27, 0.3, -0.19]]; 
+	'colorCorrections' ppEffectCommit 1;  
 	'colorCorrections' ppEffectEnable true;
 
 	[] execVM 'scripts\briefing.sqf';

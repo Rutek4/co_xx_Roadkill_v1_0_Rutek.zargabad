@@ -1,0 +1,80 @@
+OPORD 02-06 OPERATION SPEARHEAD
+
+Copy ____ of ____ copies
+2/2 Golf Co. 
+D-2 0700 XXXX
+
+Kompania GOLF
+
+Referencje:
+Strefa czasowa:
+Organizacja:
+
+ORIENTACJA:
+    Present location (eight digit grid)
+    Direction of attack (Cardinal Direction, ex. Northeast, Southwest)
+    Location of the objective (eight digit grid)
+
+1. SYTUACJA
+    A. Siły przeciwnika
+    
+
+
+SALUTE
+DRAW-D 
+    B. Siły własne
+
+Zadanie/a realizowane przez element nadrzędny [krótki, zwięzły opis dający ogólne pojęcie]
+Zadanie/a i pozycja sąsiednich pododdziałów [jak wyżej, pozycje podawane względnie, np. "lewa flanka"]
+Zadanie/a i pozycja pododdziałów wspierających [jak wyżej]
+    C. Zmiany w podporządkowaniu
+
+Elementy przydzielone [do pododdziału którego dotyczy rozkaz, wchodzące pod jego tymczasowe dowództwo]
+Elementy wydzielone [od pododdziału którego dotyczy rozkaz]
+ 
+
+2. ZADANIE
+
+Kto?
+Co?
+Gdzie?
+Kiedy?
+W jakim celu?
+ 
+
+3. WYKONANIE
+    A. Zamiar działania
+
+Podział sił
+Sposób działania
+Spodziewany rezultat końcowy
+ Plan przemieszczania się 
+Plan wsparcia ogniowego
+    B. Zadania dla podległych pododdziałów 
+    C. Wytyczne koordynujące
+
+ 
+
+4. ZABEZPIECZENIE LOGISTYCZNE
+    A. Zaopatrzenie
+
+Wyposażenie osobiste
+Środki łączności
+Wyposażenie dodatkowe
+Środki transportu
+    B. Pomoc medyczna
+    C. Jeńcy wojenni
+
+ 
+
+5. DOWODZENIE I ŁĄCZNOŚĆ
+    A. Dowodzenie
+
+Łańcuch dowodzenia
+Pozycja dowódcy na poszczególnych etapach operacji
+    B. Łączność
+
+Plan łączności
+Tabela łączności
+Hasła i sygnały
+Sposoby identyfikacji
